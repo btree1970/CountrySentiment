@@ -12,6 +12,15 @@ __pycache__/
 # C extensions
 *.so
 
+#vs-code extensions
+.vscode
+
+#vim extensions
+*.swp
+
+#env variables
+.env
+
 # Distribution / packaging
 .Python
 myapp/

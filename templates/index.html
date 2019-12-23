@@ -11,7 +11,9 @@
 
   <h2>Top posts on twitter</h2>
   {% for tweet in tweets %}
-    <p>{{tweet }}</p>
+    <p>{{tweet[0] }}</p>
+    <P> Sentiment score: {{tweet[1]}}</P>
+    <p> Sentiment Magnitude: {{tweet[2]}}</p>
   {% endfor %}
 
 </body>

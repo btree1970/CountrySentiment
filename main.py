@@ -16,7 +16,7 @@
 import datetime
 
 from flask import Flask, render_template
-from app import textlist
+from app import text_list
 app = Flask(__name__)
 
 
@@ -29,7 +29,7 @@ def root():
                    datetime.datetime(2018, 1, 3, 11, 0, 0),
                    ]
 
-    return render_template('index.html', tweets=textlist)
+    return render_template('index.html', tweets=text_list)
 
 
 if __name__ == '__main__':

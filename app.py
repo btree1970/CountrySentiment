@@ -22,7 +22,7 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 client = language.LanguageServiceClient()
 
-fetched_tweet  = api.search('donald trump', result_type='popular', count = '10')
+fetched_tweet  = api.search('donald trump', result_type='recent', count = '10')
 
 text_list = []
 for tweet in fetched_tweet:

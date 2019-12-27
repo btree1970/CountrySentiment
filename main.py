@@ -14,11 +14,13 @@
 
 # [START gae_python37_render_template]
 import datetime
-
+import json
 from flask import Flask, render_template
-from app import text_list
 app = Flask(__name__)
 
+#import scores
+with open('data/tweetSentiments.json', 'r') as scores:
+    sentimentScores = json.load(scores)
 
 @app.route('/')
 def root():
@@ -29,7 +31,7 @@ def root():
                    datetime.datetime(2018, 1, 3, 11, 0, 0),
                    ]
 
-    return render_template('index.html', tweets=text_list)
+    return render_template('index.html', tweets=sentimentScores)
 
 
 if __name__ == '__main__':

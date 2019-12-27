@@ -24,6 +24,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 myapp/
+node_modules/
 build/
 develop-eggs/
 dist/

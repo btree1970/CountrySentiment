@@ -34,7 +34,7 @@ with open('stateAbbrev.json', "r") as states:
 #                     print(geostate.name, geostate.id)
 #      index += 1
 
-with open('stateID.json', "r") as states:
+with open('data/stateID.json', "r") as states:
      stateCodes = json.load(states)
 
 def getTweets():
@@ -44,20 +44,20 @@ def getTweets():
           
      for state in stateCodes:
           stateCode = stateCodes[state]
-          tweets = api.search(q="place:{} lang:en trump".format('e8ad2641c1cb666c'), result_type="mixed", count=100)
+          tweets = api.search(q="place:{} lang:en trump".format(stateCode), result_type="mixed", count=200)
      
           for tweet in tweets:
-               print(tweet.text)
                if len(tweet.text) > 10:
                     tweetsByState[state].append(preprocess(tweet.text))
      
-     with open('tweetState.txt', 'w') as outfile:
+     with open('data/tweetState.txt', 'w') as outfile:
           json.dump(tweetsByState, outfile, ensure_ascii=False, indent=4)
 
      return tweetsByState
 
 
 def preprocess(tweet):
+     # remove urls and non-ascii characters
       return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
 getTweets()

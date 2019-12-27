@@ -1,0 +1,23 @@
+{
+  "name": "countrysentiment",
+  "version": "1.0.0",
+  "description": "Twitter senitment analyzer by state",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/btree1970/CountrySentiment.git"
+  },
+  "author": "Beakal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/btree1970/CountrySentiment/issues"
+  },
+  "homepage": "https://github.com/btree1970/CountrySentiment#readme",
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}

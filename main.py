@@ -15,8 +15,10 @@
 # [START gae_python37_render_template]
 import datetime
 import json
+import os
 from flask import Flask, render_template
-app = Flask(__name__)
+
+app = Flask(__name__, template_folder="static")
 
 #import scores
 with open('data/tweetSentiments.json', 'r') as scores:
@@ -31,7 +33,7 @@ def root():
                    datetime.datetime(2018, 1, 3, 11, 0, 0),
                    ]
 
-    return render_template('index.html', tweets=sentimentScores)
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
@@ -44,3 +46,4 @@ if __name__ == '__main__':
     # App Engine itself will serve those files as configured in app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
 # [START gae_python37_render_template]
+

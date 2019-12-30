@@ -6,11 +6,13 @@ const config = {
  entry: path.join(__dirname, 'src/main.js'),
 
  devServer: {
-        contentBase: path.join(__dirname, 'src'),
+        contentBase: path.join(__dirname, 'static'),
         hot: true,
         port: 1970,
+        host: '0.0.0.0',
+        disableHostCheck: true
   },
-
+ 
   module: {
     rules: [
       {
@@ -26,13 +28,13 @@ const config = {
     ],
   },
   output: {
-      path: __dirname + '/static',
-      filename: 'js/bundle.js'
+      path: __dirname + '/',
+      filename: 'static/js/bundle.js'
   },
   plugins: [
       new HtmlWebPackPlugin({
         template: 'src/index.html',
-        filename: 'index.html'
+        filename: 'static/index.html'
       })
   ]
 };

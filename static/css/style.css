@@ -2,3 +2,31 @@ body {
   font-family: "helvetica", sans-serif;
   text-align: center;
 }
+
+path {
+  pointer-events: all;
+}
+
+path:hover {
+  opacity: 0.50;
+  cursor: pointer;
+}
+
+.colormap {
+   display: flex;
+   align-content: center;
+   justify-content: center;   
+}
+.colormap div.colormapItem {
+    height: 25px;
+    width: 40px;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto;
+
+}
+

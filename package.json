@@ -19,7 +19,11 @@
   },
   "homepage": "https://github.com/btree1970/CountrySentiment#readme",
   "dependencies": {
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^6.26.0",
+    "fs": "0.0.1-security",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-usa-map": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",

@@ -24,6 +24,10 @@ app = Flask(__name__, template_folder="static")
 with open('data/tweetSentiments.json', 'r') as scores:
     sentimentScores = json.load(scores)
 
+@app.route("/api/score")
+def getSenimentScores():
+    return sentimentScores
+
 @app.route('/')
 def root():
     # For the sake of example, use static information to inflate the template.

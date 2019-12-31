@@ -5,6 +5,8 @@ const config = {
 
  entry: path.join(__dirname, 'src/main.js'),
 
+ mode: 'development',
+
  devServer: {
         contentBase: path.join(__dirname, 'static'),
         hot: true,

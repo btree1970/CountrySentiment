@@ -20,13 +20,18 @@ from flask import Flask, render_template
 
 app = Flask(__name__, template_folder="static")
 
-#import scores
-with open('data/tweetSentiments.json', 'r') as scores:
-    sentimentScores = json.load(scores)
 
-@app.route("/api/score")
-def getSenimentScores():
+
+@app.route("/api/score/<string:topicID>")
+def getSenimentScores(topicID):
+    #import scores
+    with open('data/sentiments/tweetSentiments_{}_score.json'.format(topicID), 'r') as scores:
+          sentimentScores = json.load(scores)
     return sentimentScores
+
+@app.route("/api/tags/")
+def getPopularTags():
+    return json.load(open('data/topics.json', 'r'))
 
 @app.route('/')
 def root():

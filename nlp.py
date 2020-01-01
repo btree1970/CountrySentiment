@@ -1,12 +1,22 @@
 import json
 import time
+import logging
+import os
 
 from google.cloud import language
 from google.cloud.language import enums
 from google.cloud.language import types
 from google.api_core import retry
-from google.api_core.retry import if_exception_type
+from google.api_core.retry import if_transient_error
 from google.api_core.exceptions import ResourceExhausted
+
+logger = logging.getLogger('google.api_core.retry')
+
+#transient_error
+# google.api_core.exceptions.InternalServerError - HTTP 500, gRPC
+# google.api_core.exceptions.TooManyRequests - HTTP 429
+# google.api_core.exceptions.ServiceUnavailable - HTTP 503
+# google.api_core.exceptions.ResourceExhausted - gRPC
 
 
 client = language.LanguageServiceClient()
@@ -26,10 +36,12 @@ def getSenimentScoreForTopic (topic):
                   content = tweets,
                   type = enums.Document.Type.PLAIN_TEXT
                   )
-                  exp_retry =  retry.Retry(predicate=if_exception_type(ResourceExhausted), maximum=240, multiplier=2, deadline=60)
- 
+
+                  #use exponential back-off to adjust for resource exhaustion
+                  exp_retry =  retry.Retry(predicate=if_transient_error, initial=1, maximum=240, multiplier=2, deadline=480)
+                  
                   sentiment = client.analyze_sentiment(document=document, retry=exp_retry).document_sentiment
-                  if abs(sentiment.score) > 0.3:
+                  if abs(sentiment.score) > 0.20:
                         totalSentiment += (sentiment.score * sentiment.magnitude)
                         tweetCount += 1
 

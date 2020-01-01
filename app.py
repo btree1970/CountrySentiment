@@ -60,18 +60,16 @@ def preprocess(tweet):
      # remove urls and non-ascii characters
       return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
-# def loadAllTweetsandGetScores():
-#      #loadAll Tweets
-#      for topic in topicsMap.keys():
-#           getTweetsForTopic(topic)
-     #get sentimentScores for all topics add it later
 
-# loadAllTweetsandGetScores()
-for topic in topicsMap.keys():
-     print(topic)
-     getSenimentScoreForTopic(topic)
+def loadAllTweetsandGetScores():
+     #loadAll Tweets
 
+     for topic in topicsMap.keys():
+          print(topic)
+          # getTweetsForTopic(topic)
+          # getSenimentScoreForTopic(topic)
 
+loadAllTweetsandGetScores()
 
  
 

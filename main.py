@@ -13,36 +13,73 @@
 # limitations under the License.
 
 # [START gae_python37_render_template]
-import datetime
+
+
+
 import json
 import os
-from flask import Flask, render_template
+from datetime import datetime
+from functools import wraps
+from flask import Flask, render_template, request
+from app import loadAllTweetsandGetScores
+from storageUtils import Storage
+
+
 
 app = Flask(__name__, template_folder="static")
 
 
+def valid_cron(handler):
+    @wraps(handler)
+    def check_valid_cron(*args, **kwargs):
+        if request.headers.get('X-AppEngine-Cron') is None:
+            print(request.headers)
+            return "Unauthourized user", 401
+        else:
+            return handler(*args, **kwargs)
+    return check_valid_cron
+
 
 @app.route("/api/score/<string:topicID>")
 def getSenimentScores(topicID):
-    #import scores
-    with open('data/sentiments/tweetSentiments_{}_score.json'.format(topicID), 'r') as scores:
-          sentimentScores = json.load(scores)
+
+    fileName = 'data/sentiments/tweetSentiments_{}_score.json'.format(topicID)
+    sentimentScores = json.loads(Storage.load(fileName))
+
     return sentimentScores
+
+@app.route("/api/tweets/<topicID>")
+def getTweets(topicID):
+
+    fileName = 'data/twitterData/tweetState_{}.txt'.format(topicID)
+    tweets = json.loads(Storage.load(fileName))
+
+    return tweets
 
 @app.route("/api/tags/")
 def getPopularTags():
+
     return json.load(open('data/topics.json', 'r'))
+
+
+@app.route("/cron" )
+@valid_cron
+def seceduler():
+    loadAllTweetsandGetScores()
+
+    currentTime = datetime.now()
+    open('data/lastupdatetime.txt', 'w').write(currentTime.strftime("%Y-%m-%d %H:%M:%S"))
+
+    return 'update successful'
+
+    
 
 @app.route('/')
 def root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
-    dummy_times = [datetime.datetime(2018, 1, 1, 10, 0, 0),
-                   datetime.datetime(2018, 1, 2, 10, 30, 0),
-                   datetime.datetime(2018, 1, 3, 11, 0, 0),
-                   ]
-
-    return render_template('index.html')
+   
+    #get last update time
+    lastUpdateTime = open('data/lastupdatetime.txt', 'r').read().strip()
+    return render_template('index.html', lastUpdateTime=lastUpdateTime)
 
 
 if __name__ == '__main__':

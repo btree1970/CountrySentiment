@@ -7,13 +7,17 @@ import * as utils from './utils'
 const buttonBackground = '#ffffff'
 const clickedButtonBackground = '#f6b93b'
 
+
+const APIURL = process.env.NODE_ENV == 'developemnt' ? 'http://localhost:8080/api/' : 'api'
+
+debugger
 class App extends Component {
 
      constructor(props) {
          super(props)
           
          this.state = {
-             senitmentID: 0,
+             sentimentID: 0,
              sentimentObj: {},
              topics: {},
             }
@@ -28,46 +32,38 @@ class App extends Component {
         alert('how are you doing')
      };
 
-    //  {
-    //   "NJ": {
-    //     fill: "navy",
-    //     clickHandler: this.onStateClickHandler()
-    //   },
-    //   "NY": {
-    //     fill: "#CC0000"
-    //   }
-    // };
-
     onButtonClickHandlerpopularTags (value)  {
-        this.setState({senitmentID: value})
+        this.setState({sentimentID: value})
 
         //Load data topic
-        this.fetchTopicHander(Object.keys(this.state.topics)[value])
+        this.fetchTopicHander(Object.keys(this.state.topics)[value], 'score')
     }
 
-    onStateClickHandler (event)  {
-        console.log(event)
+    onStateClickHandler (state)  {
+        topic = Object.keys(this.state.topics)[this.state.sentimentID]
+        console.log(topic)
     }
 
      getHexColor (value) {
         return utils.getColorGradient(value)
      }
 
-     statesCustomConfig () { 
+    statesCustomConfig () { 
         let  stateMapObject = {}
         for (var key in this.state.sentimentObj) {
             let fill = this.getHexColor(this.state.sentimentObj[key])
             stateMapObject[key] =
               {
                 fill: fill,
-                clickHandler: this.onStateClickHandler()   
-            }
+                clickHandler: (event) => this.onStateClickHandler(event.target.dataset.name)
+               }
         }
         return stateMapObject
       };
 
-    fetchTopicHander (topic) {
-        fetch(`http://localhost:8080/api/score/${topic}`).then((response) => {
+    fetchTopicHander (topic, path) {
+        debugger
+        fetch(`${APIURL}/${path}/${topic}`).then((response) => {
             return response.json()
         }).catch((error) => {
             console.log(error)
@@ -76,8 +72,10 @@ class App extends Component {
         })
     }
 
+    
     componentWillMount () {
-           fetch('http://localhost:8080/api/tags').then((response) => {
+           debugger
+           fetch(`${APIURL}/tags`).then((response) => {
                return response.json()
            }).catch((error) => {
                console.log(error)
@@ -91,27 +89,23 @@ class App extends Component {
 
         if (this.state.topics != prevState.topics) {
           const topic = Object.keys(this.state.topics)[0]
-          this.fetchTopicHander(topic)
+          this.fetchTopicHander(topic, 'score')
         }
         
     }
 
-    componentDidUpdate 
      render() {
         let divergingScheme = ["#93003a", "#ae1045", "#c52a52", "#d84360", "#e75d6f", "#f4777f", "#fd9291", "#ffaea5", "#ffcab9", "#ffe5cc", "#efec6b", "#deda5a", "#cac94b", "#b4b93e", "#9da932", "#849a26", "#6b8c1c", "#507e11", "#326f07", "#006100"]
 
         return (
             <div className="App">
-                <div className="title">
-                    Hello
-                </div>
                 
                 <div className="popularTags">
                     {
                         Object.keys(this.state.topics).map((key, value) => {
 
                              return (<div class="button_cont" align="center" onClick={ () => this.onButtonClickHandlerpopularTags(value)}> 
-                                          <a id={`topic_button_${value}`} class="topic_button" style={{background: this.state.senitmentID == value ? '#f6b93b': '' }} >
+                                          <a id={`topic_button_${value}`} class="topic_button" style={{background: this.state.sentimentID == value ? '#f6b93b': '' }} >
                                                 {this.state.topics[key]}
                                           </a>
                                    </div>)

@@ -1,3 +1,4 @@
+#!include:.gitignore
 # This file specifies files that are *not* uploaded to Google Cloud Platform
 # using gcloud. It follows the same syntax as .gitignore, with the addition of
 # "#!include" directives (which insert the entries of the given .gitignore-style
@@ -12,3 +13,16 @@
 # below:
 .git
 .gitignore
+
+myapp/
+node_modules/
+__pychache__/
+.vscode/
+src/
+
+package-lock.json
+package.json
+gcloud_nlp.log
+tweetsImport.log
+
+webpack.config.js
